@@ -1,21 +1,21 @@
 import ArticlesList from "@/components/articles_list";
-import { getArticles } from "@/lib/firebase/database";
-import { ArrowLeftIcon, Edit2Icon, Trash2Icon } from "lucide-react";
+import { getArticles } from "@/lib/firebase";
+import { initAdmin } from "@/lib/firebase/firebaseAdmin";
+import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 
 import { v4 as uuidv4 } from "uuid";
 
 interface ArticleTypes{
     id: string
-    data: {
-        title: string
-        slug: string
-        content: string
-    }
+    title: string
+    slug: string
+    content: string
 }
 
 export default async function ArticlesPage(){
-    const articles: Array<ArticleTypes> = await getArticles()
+    await initAdmin();
+    const articles: Array<ArticleTypes> | undefined = await getArticles()
 
     return(
         <main className="flex">

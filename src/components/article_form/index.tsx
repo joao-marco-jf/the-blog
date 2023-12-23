@@ -1,13 +1,13 @@
 "use client"
 
-import { setArticle } from "@/lib/firebase/database"
+import { setArticle } from "@/lib/firebase"
 import { ChangeEventHandler, FormEventHandler, useState } from "react"
 import Textarea from "./textarea"
-import { title } from "process"
 import { ArrowLeftIcon } from "lucide-react"
 import Link from "next/link"
+import { initAdmin } from "@/lib/firebase/firebaseAdmin"
 
-export default function ArticleForm({articleId, originalTitle, originalSlug, originalContent}: {articleId?: string, originalTitle?: string, originalSlug?: string, originalContent?: string}){
+export default function ArticleForm({articleId, originalTitle, originalSlug, originalContent}: {articleId: string, originalTitle?: string, originalSlug?: string, originalContent?: string}){
 
     const [ slug, setSlug ] = useState<string>(originalSlug ? originalSlug : String())
     const [ content, setContent ] = useState<string>(originalContent ? originalContent : String())
@@ -19,7 +19,7 @@ export default function ArticleForm({articleId, originalTitle, originalSlug, ori
             content: {value: string}
         }
 
-        if(title == "Novo artigo" || slug == "" || content == "" || content == originalContent){
+        if(slug == "" || content == "" || content == originalContent){
             return;
         }
 
@@ -29,6 +29,7 @@ export default function ArticleForm({articleId, originalTitle, originalSlug, ori
             content: content
         }
 
+        await initAdmin();
         await setArticle(article, articleId)
     }
 
