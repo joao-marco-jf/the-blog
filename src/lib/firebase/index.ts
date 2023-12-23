@@ -1,57 +1,13 @@
-"use server"
-import { getFirestore } from "firebase-admin/firestore";
+import { initializeApp } from "firebase/app";
 
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+};
 
-
-export const setArticle = async (data: any, id: string) => {
-    const firestore = getFirestore();
-    try{
-        const newArticle = await firestore.collection("article").doc(id).set(data);
-        return newArticle;
-    } catch(error) {
-        console.error(error);
-    }
-}
-
-export const getArticle = async (id: string) => {
-    const firestore = getFirestore();
-    try{
-        const articleSnapshot = await firestore.collection("articles").doc(id).get();
-        const article = {
-            id: articleSnapshot.id,
-            title: articleSnapshot.data()?.title,
-            slug: articleSnapshot.data()?.title,
-            content: articleSnapshot.data()?.content
-        }
-        return article;
-
-    } catch (error){
-        console.error(error);
-    }
-}
-
-export const getArticles = async () => {
-    const firestore = getFirestore();
-    try{
-        const articlesSnapshot = await firestore.collection("articles").get();
-        const articles = articlesSnapshot.docs.map(article => ({
-            id: article.id,
-            title: article.data().title,
-            slug: article.data().slug,
-            content: article.data().content
-        }))
-        return articles;
-    } catch (error){
-        console.error(error);
-    }
-}
-
-export const deleteArticle = async (id: string) => {
-    const firestore = getFirestore();
-    try{
-        const deleteRes = await firestore.collection("articles").doc(id).delete();
-        return deleteRes;
-    } catch (error){
-        console.error(error)
-    }
-}
+const firebase = initializeApp(firebaseConfig);
+export default firebase;

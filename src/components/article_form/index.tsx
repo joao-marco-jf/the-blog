@@ -1,11 +1,25 @@
 "use client"
 
-import { setArticle } from "@/lib/firebase"
 import { ChangeEventHandler, FormEventHandler, useState } from "react"
 import Textarea from "./textarea"
 import { ArrowLeftIcon } from "lucide-react"
 import Link from "next/link"
-import { initAdmin } from "@/lib/firebase/firebaseAdmin"
+
+import axios from "axios"
+
+async function setArticle(data: {title: string, slug: string, content: string}, id: string){
+    const res = await axios("http://localhost:3000/dashboard/api/articles/", {
+        method: "POST",
+        data: {
+            id,
+            title: data.title,
+            slug: data.slug,
+            content: data.content
+        }
+    })
+    const article = await res.data;
+    return await article;
+}
 
 export default function ArticleForm({articleId, originalTitle, originalSlug, originalContent}: {articleId: string, originalTitle?: string, originalSlug?: string, originalContent?: string}){
 
@@ -29,7 +43,6 @@ export default function ArticleForm({articleId, originalTitle, originalSlug, ori
             content: content
         }
 
-        await initAdmin();
         await setArticle(article, articleId)
     }
 
@@ -42,7 +55,7 @@ export default function ArticleForm({articleId, originalTitle, originalSlug, ori
     return(
         <form className="flex flex-col h-[100vh]" onSubmit={handleSubmit}>
             <div className="fixed flex h-[4rem] z-50 w-full justify-between border-b-[1px] border-white">
-                <Link href={"/administration/articles"} className="cursor-pointer h-full flex justify-center items-center px-[1rem]"><ArrowLeftIcon /></Link>
+                <Link href={"/dashboard/articles"} className="cursor-pointer h-full flex justify-center items-center px-[1rem]"><ArrowLeftIcon /></Link>
                 <input onChange={handleChange} className="p-[1rem] w-full outline-none" id="title" type="text" defaultValue={originalTitle ? originalTitle : "Novo artigo"}/>
                 <input hidden value={slug} onChange={handleChange} className="p-[1rem] w-full  outline-none" id="slug" type="text"/>
                 <button disabled={slug == "" || content == "" || content ==  originalContent} className="p-[1rem] w-[10rem] disabled:bg-blue-200 bg-blue-600 text-white" type="submit">Publicar</button>

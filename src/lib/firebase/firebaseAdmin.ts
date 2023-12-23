@@ -20,6 +20,10 @@ export function createFirebaseAdminApp(params: FirebaseAdminAppParams){
     privateKey
   });
 
+  if(admin.apps.length > 0){
+    return admin.app();
+  }
+
   return admin.initializeApp({
     credential: cert,
     projectId: params.projectId,
