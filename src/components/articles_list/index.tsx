@@ -26,6 +26,7 @@ export default function ArticlesList(props: {articles: (ArticleModal & {id: stri
                         <Link href={`/dashboard/articles/${article.id}`}><Edit2Icon color="rgb(180 180 180)"/></Link>
                         <button onClick={async() => {
                             setArticles(state => state?.filter((item) => item.id != article.id))
+
                             await deleteArticle(article.id)
                         }}><Trash2Icon color="rgb(180 180 180)"/></button>
                     </div>
