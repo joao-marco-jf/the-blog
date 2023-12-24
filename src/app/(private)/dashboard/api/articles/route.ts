@@ -7,11 +7,15 @@ export async function GET(request: Request) {
     try{
         const firestore = getFirestore();
         const articlesSnapshot = await firestore.collection("articles").get();
-        const articles = articlesSnapshot.docs.map(article => ({
+        const articles: (ArticleModal & {id: string})[] = articlesSnapshot.docs.map((article) => ({
             id: article.id,
             title: article.data().title,
             slug: article.data().slug,
-            content: article.data().content
+            content: article.data().content,
+            createdAt: article.data().createdAt,
+            updatedAt: article.data().updatedAt,
+            published: article.data().published,
+            author: article.data().author
         }))
         return Response.json(articles);
     } catch (error){
@@ -24,12 +28,17 @@ export async function POST(request: Request) {
     await initAdmin();
     try{
         const firestore = getFirestore();
-        const article = await request.json();
-        const newArticle = await firestore.collection("articles").doc(article.id).set({
-            title: article.title,
-            slug: article.slug,
-            content: article.content
-        });
+        const data = await request.json();
+        const article: ArticleModal = {
+            title: data.title,
+            slug: data.slug,
+            content: data.content,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+            published: data.published,
+            author: data.author
+        }
+        const newArticle = await firestore.collection("articles").doc(data.id).set(article);
         return Response.json(newArticle);
     } catch(error) {
         console.error(error);

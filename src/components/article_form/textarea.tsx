@@ -11,7 +11,22 @@ import TextAlign from '@tiptap/extension-text-align'
 import Typography from '@tiptap/extension-typography'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon, BoldIcon, CodeIcon, Heading1Icon, Heading2Icon, Heading3Icon, ImageIcon, ItalicIcon, Redo2Icon, RemoveFormattingIcon, Undo2Icon } from 'lucide-react'
+import { 
+    AlignCenterIcon,
+    AlignJustifyIcon,
+    AlignLeftIcon,
+    AlignRightIcon,
+    BoldIcon,
+    CodeIcon,
+    Heading1Icon,
+    Heading2Icon,
+    Heading3Icon,
+    ImageIcon,
+    ItalicIcon,
+    Redo2Icon,
+    RemoveFormattingIcon,
+    Undo2Icon
+} from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
 
 interface TextareaTypes {
@@ -125,7 +140,7 @@ export default function Textarea(props: TextareaTypes){
                     ><Redo2Icon className={ "active:text-white text-zinc-400"}/></div>
                 </div>
             }
-            <EditorContent className="p-[1rem] h-fit mt-[4rem]" editor={editor} />
+            <EditorContent placeholder='Teste' className="p-[1rem] h-fit mt-[4rem]" editor={editor} />
         </div>
     )
 }

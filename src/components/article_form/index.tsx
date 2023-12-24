@@ -6,44 +6,58 @@ import { ArrowLeftIcon } from "lucide-react"
 import Link from "next/link"
 
 import axios from "axios"
+import { useSession } from "next-auth/react"
+import { Timestamp } from "firebase/firestore"
 
-async function setArticle(data: {title: string, slug: string, content: string}, id: string){
+interface ArticleFormProps {
+    article: {id: string}
+    original?: {
+        title: string,
+        slug: string,
+        content: string
+        createdAt: number
+    }
+}
+
+async function setArticle(data: ArticleModal & {id: string}){
     const res = await axios("http://localhost:3000/dashboard/api/articles/", {
         method: "POST",
-        data: {
-            id,
-            title: data.title,
-            slug: data.slug,
-            content: data.content
-        }
+        data: data
     })
     const article = await res.data;
     return await article;
 }
 
-export default function ArticleForm({articleId, originalTitle, originalSlug, originalContent}: {articleId: string, originalTitle?: string, originalSlug?: string, originalContent?: string}){
+export default function ArticleForm(props: ArticleFormProps){
 
-    const [ slug, setSlug ] = useState<string>(originalSlug ? originalSlug : String())
-    const [ content, setContent ] = useState<string>(originalContent ? originalContent : String())
+    const [ slug, setSlug ] = useState<string>(props?.original ? props.original.slug : String())
+    const [ content, setContent ] = useState<string>(props.original ? props.original.content : String())
+    const { data: session } = useSession();
+    const isNotChanged = (): boolean => (slug == "" || content == "" || (props.original && content == props.original.content)) as boolean
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+        if(isNotChanged()) return;
+
         let form = event.target as typeof event.target & {
             title: {value: string},
             slug: {value: string},
             content: {value: string}
         }
 
-        if(slug == "" || content == "" || content == originalContent){
-            return;
-        }
-
-        let article = {
+        let article: ArticleModal = {
             title: form.title.value,
             slug: form.slug.value,
-            content: content
+            content: content,
+            author: {
+                name: session?.user?.name as string,
+                email: session?.user?.email as string
+            },
+            createdAt: props.original?.createdAt || Timestamp.now().toMillis(),
+            updatedAt: Timestamp.now().toMillis(),
+            published: true
         }
 
-        await setArticle(article, articleId)
+        await setArticle({...article, id: props.article.id})
     }
 
     const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -56,11 +70,11 @@ export default function ArticleForm({articleId, originalTitle, originalSlug, ori
         <form className="flex flex-col h-[100vh]" onSubmit={handleSubmit}>
             <div className="fixed flex h-[4rem] z-50 w-full justify-between border-b-[1px] border-white">
                 <Link href={"/dashboard/articles"} className="cursor-pointer h-full flex justify-center items-center px-[1rem]"><ArrowLeftIcon /></Link>
-                <input onChange={handleChange} className="p-[1rem] w-full outline-none" id="title" type="text" defaultValue={originalTitle ? originalTitle : "Novo artigo"}/>
+                <input onChange={handleChange} className="p-[1rem] w-full outline-none" id="title" type="text" defaultValue={props.original ? props.original.title : "Novo artigo"}/>
                 <input hidden value={slug} onChange={handleChange} className="p-[1rem] w-full  outline-none" id="slug" type="text"/>
-                <button disabled={slug == "" || content == "" || content ==  originalContent} className="p-[1rem] w-[10rem] disabled:bg-blue-200 bg-blue-600 text-white" type="submit">Publicar</button>
+                <button disabled={isNotChanged()} className="p-[1rem] w-[10rem] disabled:bg-blue-200 bg-blue-600 text-white" type="submit">Publicar</button>
             </div>
-            <Textarea content={originalContent} setContent={setContent}/>
+            <Textarea content={props.original && props.original.content} setContent={setContent}/>
         </form>
     )
 }
