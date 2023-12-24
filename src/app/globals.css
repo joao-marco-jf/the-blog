@@ -26,17 +26,7 @@ code{
   height: 20rem;
 }
 
-.tiptap {
-  > * + * {
-    margin-top: 0.75em;
-  }
-
-  img {
-    width: 100%;
-    height: auto;
-
-    &.ProseMirror-selectednode {
-      outline: 3px solid #68CEF8;
-    }
-  }
+img {
+  width: 100%;
+  height: auto;
 }
