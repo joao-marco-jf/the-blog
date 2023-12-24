@@ -14,7 +14,7 @@ async function getArticles(){
 }
 
 export default async function ArticlesPage(){
-    const articles = await getArticles()
+    const articles: (ArticleModal & {id: string})[] = await getArticles()
 
     return(
         <main className="flex">

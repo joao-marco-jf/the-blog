@@ -6,7 +6,7 @@ const font = Montserrat({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'The Blog',
-  description: 'The Blog, o seu blog sobre tecnologia e programção.',
+  description: 'The Blog, o seu blog sobre tecnologia e programação.',
 }
 
 export default function RootLayout({
