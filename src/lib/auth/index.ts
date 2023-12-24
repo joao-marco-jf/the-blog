@@ -27,8 +27,8 @@ export const {
             }
         }),
         GitHubProvider({
-            clientId: "a76cb4ea3cf59ddee252",
-            clientSecret: "12440964e56f83cd6c2afaf82fd98af74627f7c4"
+            clientId: process.env.NEXTAUTH_GITHUB_CLIENT_ID,
+            clientSecret: process.env.NEXTAUTH_GITHUB_CLIENT_SECRET
         })
     ]
 })
