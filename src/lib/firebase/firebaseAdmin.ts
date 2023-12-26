@@ -8,7 +8,7 @@ interface FirebaseAdminAppParams {
 }
 
 function formatPrivateKey(key: string){
-  return key.replaceAll(/\\n/g, "/n");
+  return key.replace(/\\n/g, "/n");
 }
 
 export function createFirebaseAdminApp(params: FirebaseAdminAppParams){
@@ -31,7 +31,8 @@ export function createFirebaseAdminApp(params: FirebaseAdminAppParams){
   })
 }
 
-export async function initAdmin(){ 
+export async function initAdmin(){
+  
   const params: FirebaseAdminAppParams = {
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID as string,
     storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET as string,
