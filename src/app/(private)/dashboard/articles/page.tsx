@@ -17,13 +17,13 @@ export default async function ArticlesPage(){
     const articles: (ArticleModal & {id: string})[] = await getArticles()
 
     return(
-        <main className="flex">
-            <div className="fixed flex justify-between w-full bg-white items-center">
+        <main className="flex flex-col w-full h-full">
+            <div className="flex w-full h-fit justify-between bg-white items-center">
                 <Link href={"/dashboard/"} className="cursor-pointer h-full flex justify-center items-center px-[1rem]"><ArrowLeftIcon /></Link>
                 <Link href={`/dashboard/articles/${uuidv4()}`}><button className="p-[1rem] w-[10rem] bg-blue-600 text-white" type="submit">Criar artigo</button></Link>
             </div>
-            <div className="flex flex-col gap-[1rem] w-full p-[1rem] mt-[4rem]">
-            <ArticlesList articles={articles}/>
+            <div className="flex overflow-y-scroll flex-col gap-[1rem] w-full h-full p-[1rem]">
+                <ArticlesList articles={articles}/>
             </div>
         </main>
     )
