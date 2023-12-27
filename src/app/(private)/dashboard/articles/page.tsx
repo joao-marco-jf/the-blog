@@ -6,8 +6,10 @@ import Link from "next/link";
 import { v4 as uuidv4 } from "uuid";
 
 async function getArticles(){
-    const res = await axios("http://localhost:3000/dashboard/api/articles/", {
-        method: "GET"
+    const res = await axios('/dashboard/api/articles', {
+        method: "GET",
+        baseURL: "http://localhost:3000",
+        headers: {"Content-Type": "application/json"}
     })
     const articles = await res.data
     return await articles

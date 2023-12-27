@@ -36,12 +36,15 @@ export const {
         })
     }) as any,
     callbacks: {
-        async jwt({ token, user }){
+        jwt({ token, user }){
             return {...token, ...user}
         },
         session({ session, token }){
             session.user.role = token.role as string;
             return session;
+        },
+        redirect({url, baseUrl}){
+            return `${baseUrl}/dashboard`
         }
     }
 })

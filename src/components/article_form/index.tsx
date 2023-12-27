@@ -19,9 +19,11 @@ interface ArticleFormProps {
 }
 
 async function setArticle(data: ArticleModal & {id: string}){
-    const res = await axios("http://localhost:3000/dashboard/api/articles/", {
+    const res = await axios("/dashboard/api/articles/", {
         method: "POST",
-        data: data
+        data: data,
+        baseURL: "http://localhost:3000",
+        headers: {"Content-Type": "application/json"}
     })
     const article = await res.data;
     return await article;
