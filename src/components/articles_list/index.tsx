@@ -6,9 +6,11 @@ import Link from "next/link"
 import { useState } from "react"
 
 async function deleteArticle(id: string){
-    const res = await axios("http://localhost:3000/dashboard/api/articles/1", {
+    const res = await axios("/dashboard/api/articles/1", {
         method: "DELETE",
-        data: {id}
+        data: {id},
+        baseURL: "http://localhost:3000",
+        headers: {"Content-Type": "application/json"}
     })
     const article = await res.data;
     return await article;

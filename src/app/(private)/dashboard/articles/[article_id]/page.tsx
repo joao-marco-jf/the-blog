@@ -2,9 +2,11 @@ import ArticleForm from "@/components/article_form";
 import axios from "axios";
 
 async function getArticle(id: string){
-    const res = await axios("http://localhost:3000/dashboard/api/articles/1", {
+    const res = await axios("/dashboard/api/articles/1", {
         method: "PUT",
-        data: {id}
+        data: {id},
+        baseURL: "http://localhost:3000",
+        headers: {"Content-Type": "application/json"}
     })
     const article = await res.data;
     return await article;
