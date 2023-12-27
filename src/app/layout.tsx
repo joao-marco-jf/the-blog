@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import { Montserrat } from 'next/font/google'
+import { Montserrat, Oswald, Playfair_Display, Kanit, DM_Sans } from 'next/font/google'
 import './globals.css'
 
-const font = Montserrat({ subsets: ['latin'] })
+const font = DM_Sans({ subsets: ['latin'], weight: ["200", "300", "400", "500", "600", "700"] })
 
 export const metadata: Metadata = {
   title: 'The Blog',
