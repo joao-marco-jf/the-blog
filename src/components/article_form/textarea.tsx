@@ -9,8 +9,9 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Text from '@tiptap/extension-text'
 import TextAlign from '@tiptap/extension-text-align'
 import Typography from '@tiptap/extension-typography'
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import Heading from "@tiptap/extension-heading"
 import { 
     AlignCenterIcon,
     AlignJustifyIcon,
@@ -30,29 +31,59 @@ import {
 import { Dispatch, SetStateAction } from 'react'
 
 interface TextareaTypes {
+    title?: string
     content?: string
-    setContent: Dispatch<SetStateAction<string>>
+    setContent: Dispatch<SetStateAction<string>>,
+    setTitle: Dispatch<SetStateAction<string>>,
+    setDescription: Dispatch<SetStateAction<string>>,
 }
+
+const CustomDocument = Document.extend({
+    content: `title subtitle block+`
+})
+
+const Title = Heading.extend({
+    name: "title",
+    group: "title",
+    parseHTML: () => [{tag: "h1:first-child"}]
+}).configure({levels: [1]})
+
+const Subtitle = Heading.extend({
+    name: "subtitle",
+    group: "subtitle",
+    parseHTML: () => [{tag: "h2:first-child"}]
+}).configure({levels: [2]})
 
 export default function Textarea(props: TextareaTypes){
     const editor = useEditor({
         extensions: [
-            StarterKit,
+            CustomDocument,
+            Title,
+            Subtitle,
+            StarterKit.configure({
+                document: false
+            }),
             Highlight,
             Typography,
             Image,
             Text,
-            Document,
             Dropcursor,
             Paragraph,
             TextAlign.configure({
                 types: ['heading', 'paragraph'],
             }),
             Placeholder.configure({
-                placeholder: 'Escreva alguma coisa …'
+                placeholder: ({node}) => {
+                    if(node.type.name === "title"){
+                        return "Informe o título do artigo"
+                    } else if(node.type.name === "subtitle"){
+                        return "Informe o subtítulo do artigo"
+                    }
+                    return "Insíra o conteúdo do artigo"
+                }
             })
         ],
-        content: props.content ? props.content: "",
+        content: (props.title && props.content) && `<h1/>${props.title}</h1>` + props.content,
         editorProps: {
             attributes: {
               class: "focus:outline-none min-h-[80vh] py-[5rem] px-[30rem]"
@@ -62,8 +93,25 @@ export default function Textarea(props: TextareaTypes){
             if(anchors.editor.getText() == String()){
                 props.setContent(String())
             } else {
-                props.setContent(anchors.editor.getHTML())
+                let json = anchors.editor.getJSON()
+                let html = anchors.editor.getHTML()
+                let withoutTitle = html.indexOf("</h1>") + "</h1>".length
+                if(json.content){
+                    let firstParagraph = json.content.find(item => item.type == "paragraph")
+                    if(firstParagraph && firstParagraph.content && firstParagraph.content.length > 0){ 
+                        props.setDescription(firstParagraph.content[0].text || String())
+                    }
+                }
+                props.setContent(html.slice(withoutTitle, html.length))
             }
+
+            const title: JSONContent = anchors.editor.getJSON().content?.find(item => item.type == "title") as JSONContent
+            if(!title.content) {
+                props.setTitle(String());
+                return
+            }
+            const titleValue = title?.content[0].text as string
+            props.setTitle(titleValue)
         }
     })
 
@@ -140,7 +188,7 @@ export default function Textarea(props: TextareaTypes){
                     ><Redo2Icon className={ "active:text-white text-zinc-400"}/></div>
                 </div>
             }
-            <EditorContent placeholder='Teste' className="p-[1rem] h-fit mt-[4rem]" editor={editor} />
+            <EditorContent className="p-[1rem] h-fit mt-[4rem]" editor={editor} />
         </div>
     )
 }

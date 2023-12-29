@@ -35,3 +35,13 @@ img {
   width: 0px;
   display: none;
 }
+
+.ProseMirror h1.is-empty:nth-child(1)::before,
+.ProseMirror h2.is-empty:nth-child(2)::before,
+.ProseMirror p.is-empty:nth-child(3)::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
