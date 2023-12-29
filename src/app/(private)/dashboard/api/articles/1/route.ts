@@ -1,5 +1,6 @@
 "use server"
 import { initAdmin } from "@/lib/firebase/firebaseAdmin";
+import { ArticleModal } from "@/lib/interfaces";
 import { getFirestore } from "firebase-admin/firestore";
 
 export async function PUT(request: Request){
@@ -13,6 +14,7 @@ export async function PUT(request: Request){
             title: articleSnapshot.data()?.title,
             slug: articleSnapshot.data()?.title,
             content: articleSnapshot.data()?.content,
+            description: articleSnapshot.data()?.description,
             createdAt: articleSnapshot.data()?.createdAt,
             updatedAt: articleSnapshot.data()?.updatedAt,
             published: articleSnapshot.data()?.published,
