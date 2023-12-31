@@ -1,5 +1,6 @@
 "use client"
 
+import { ArticleModal } from "@/lib/interfaces"
 import axios from "axios"
 import { Edit2Icon, Trash2Icon } from "lucide-react"
 import Link from "next/link"

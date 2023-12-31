@@ -1,4 +1,5 @@
 import ArticleForm from "@/components/article_form";
+import { ArticleModal } from "@/lib/interfaces";
 import axios from "axios";
 
 async function getArticle(id: string){
@@ -19,6 +20,7 @@ export default async function EditArticlePage({params}: {params: {article_id: st
         <main>
             <ArticleForm article={{id: params.article_id}} original={{
                 title: article.title == ("" || undefined) ? "Insíra o título do artigo" : article.title,
+                description: article.description == ("" || undefined) ? "" : article.description,
                 slug: article.slug,
                 createdAt: article.createdAt,
                 content: article.content
