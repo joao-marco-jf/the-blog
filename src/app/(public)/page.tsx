@@ -1,7 +1,6 @@
-import ArticlesGrid from "@/components/articles_grid";
+import Showcase from "@/components/showcase";
+import Smooth from "@/components/smooth";
 import axios from "axios";
-import Image from "next/image";
-import Link from "next/link";
 
 async function getArticles(){
   const res = await axios("/api/articles", {
@@ -17,10 +16,11 @@ export default async function HomePage() {
   const articles = await getArticles();
 
   return (
-    <main className="flex flex-col w-full p-[2rem] gap-[5rem]">
-      <ArticlesGrid columns={1} title="The Blog" articles={articles}/>
-      <ArticlesGrid columns={2} title="Artigos relevantes" articles={articles}/>
-      <ArticlesGrid columns={3} title="Artigos recentes" articles={articles} />
-    </main>
+    <Smooth.container className="flex flex-col gap-[35rem] px-[5rem]">
+      <Showcase title="The*Blog" isFirst={true} size={1} articles={articles}/>
+      <Showcase title="Relevant*" isFirst={false} size={2} articles={articles}/>
+      <Showcase title="New*" isFirst={false} size={2} articles={articles}/>
+      <Showcase title="Curiosities*" isFirst={false} size={2} articles={articles}/>
+    </Smooth.container>
   )
 }
