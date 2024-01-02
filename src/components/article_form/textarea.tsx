@@ -86,7 +86,7 @@ export default function Textarea(props: TextareaTypes){
         content: (props.title && props.content) && `<h1/>${props.title}</h1>` + props.content,
         editorProps: {
             attributes: {
-              class: "focus:outline-none min-h-[80vh] py-[5rem] px-[30rem]"
+              class: "focus:outline-none min-h-[80vh] py-[5rem] sm:px-[1rem] lg:px-[20rem] 2xl:px-[30rem]"
             },
         },
         onUpdate: (anchors) => {

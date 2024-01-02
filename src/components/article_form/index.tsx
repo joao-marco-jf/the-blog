@@ -1,5 +1,5 @@
 "use client"
-import { ChangeEventHandler, FormEventHandler, useState } from "react"
+import { ChangeEventHandler, FormEventHandler, useEffect, useState } from "react"
 import Textarea from "./textarea"
 import { ArrowLeftIcon } from "lucide-react"
 import Link from "next/link"
@@ -69,8 +69,12 @@ export default function ArticleForm(props: ArticleFormProps){
     const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
         event.preventDefault()
         let input = event.target as typeof event.target & {value: string}
-        setSlug(input.value.replaceAll(/[^a-zA-Z0-9\s]/g, "").replaceAll(/\s/g, "-").toLowerCase())
+        setTitle(input.value);
     }
+
+    useEffect(() => {
+        setSlug(title.replaceAll(/[^a-zA-Z0-9\s]/g, "").replaceAll(/\s/g, "-").toLowerCase())
+    }, [title])
     
     return(
         <form className="flex flex-col h-[100vh]" onSubmit={handleSubmit}>

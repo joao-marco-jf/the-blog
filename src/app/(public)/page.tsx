@@ -1,26 +1,7 @@
-import Showcase from "@/components/showcase";
-import Smooth from "@/components/smooth";
-import axios from "axios";
+import HomeContent from "@/components/home";
 
-async function getArticles(){
-  const res = await axios("/api/articles", {
-    baseURL: "http://localhost:3000",
-    headers: {"Content-Type": "application/json"},
-    method: "GET",
-  })
-  const articles = await res.data;
-  return articles;
-}
-
-export default async function HomePage() {
-  const articles = await getArticles();
-
+export default function HomePage() {
   return (
-    <Smooth.container className="flex flex-col gap-[35rem] px-[5rem]">
-      <Showcase title="The*Blog" isFirst={true} size={1} articles={articles}/>
-      <Showcase title="Relevant*" isFirst={false} size={2} articles={articles}/>
-      <Showcase title="New*" isFirst={false} size={2} articles={articles}/>
-      <Showcase title="Curiosities*" isFirst={false} size={2} articles={articles}/>
-    </Smooth.container>
+    <HomeContent />
   )
 }

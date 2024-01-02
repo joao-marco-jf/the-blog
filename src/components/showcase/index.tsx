@@ -33,7 +33,7 @@ export default function Showcase(props: ShowcaseProps){
                             <p>{(new Timestamp(props.articles[0].createdAt.seconds, props.articles[0].createdAt.nanoseconds)).toDate().toDateString()}</p>
                             <h1 className="leading-[3rem] text-[2.8rem] text-zinc-800 tracking-tighter">{props.articles[0].title}</h1>
                             <h2 className="w-[80%] font-light leading-[2.1rem] text-[1.6rem] text-zinc-700 line-clamp-2 tracking-tighter">{props.articles[0].description}</h2>
-                            <Link className="w-fit font-light text-[1.6rem] tracking-tighter underline text-zinc-700 hover:underline hover:text-black" href={"#"}>Ler artigo</Link>
+                            <Link className="w-fit font-light text-[1.6rem] tracking-tighter underline text-zinc-700 hover:underline hover:text-black" href={`/artigo/${props.articles[0].slug}`}>Ler artigo</Link>
                         </div>
                     </Smooth.fragment>
                 </Smooth.section>
@@ -67,7 +67,7 @@ export default function Showcase(props: ShowcaseProps){
                             </div>
                             <div className="flex flex-col w-full gap-[1rem]">
                             <h2 className="w-[80%] font-light leading-[2.1rem] text-[1.6rem] text-zinc-700 line-clamp-2 tracking-tighter">{props.articles[0].description}</h2>
-                            <Link className="w-fit font-light text-[1.6rem] tracking-tighter underline text-zinc-700 hover:underline hover:text-black" href={"#"}>Ler artigo</Link>
+                            <Link className="w-fit font-light text-[1.6rem] tracking-tighter underline text-zinc-700 hover:underline hover:text-black" href={`/artigo/${props.articles[0].slug}`}>Ler artigo</Link>
                             </div>
                         </div>
                         <div
@@ -86,7 +86,7 @@ export default function Showcase(props: ShowcaseProps){
                             </div>
                             <div className="flex flex-col w-full gap-[1rem]">
                             <h2 className="w-[80%] font-light leading-[2.1rem] text-[1.6rem] text-zinc-700 line-clamp-2 tracking-tighter">{props.articles[1].description}</h2>
-                            <Link className="w-fit font-light text-[1.6rem] tracking-tighter underline text-zinc-700 hover:underline hover:text-black" href={"#"}>Ler artigo</Link>
+                            <Link className="w-fit font-light text-[1.6rem] tracking-tighter underline text-zinc-700 hover:underline hover:text-black" href={`/artigo/${props.articles[1].slug}`}>Ler artigo</Link>
                             </div>
                         </div>
                     </Smooth.fragment>
