@@ -41,7 +41,7 @@ export default function ArticleForm(props: ArticleFormProps){
     const [ content, setContent ] = useState<string>(props.original ? props.original.content : String())
     const [ description, setDescription ] = useState<string>(props.original ? props.original.description : String())
     const { data: session } = useSession();
-    const isNotChanged = (): boolean => (slug == "" || content == "" || (props.original && content == props.original.content)) as boolean
+    const isNotChanged = (): boolean => (title == "" ||slug == "" || content == "" || (props.original && content == props.original.content) || (props.original && title == props.original.title) || (props.original && slug == props.original.slug)) as boolean
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
         if(isNotChanged()) return;
@@ -66,7 +66,6 @@ export default function ArticleForm(props: ArticleFormProps){
             published: true
         }
 
-        console.log("Executing...")
         await setArticle({...article, id: props.article.id})
     }
 
@@ -84,7 +83,7 @@ export default function ArticleForm(props: ArticleFormProps){
         <form className="flex flex-col h-[100vh]" onSubmit={handleSubmit}>
             <div className="fixed flex h-[4rem] z-50 w-full justify-between border-b-[1px] border-white">
                 <Link href={"/dashboard/articles"} className="cursor-pointer h-full flex justify-center items-center px-[1rem]"><ArrowLeftIcon /></Link>
-                <input onChange={handleChange} value={title} className="p-[1rem] w-full outline-none" id="title" type="text" defaultValue={props.original ? title : "Novo artigo"}/>
+                <input onChange={handleChange} value={title} className="p-[1rem] w-full outline-none" id="title" type="text"/>
                 <input hidden value={slug} onChange={handleChange} className="p-[1rem] w-full  outline-none" id="slug" type="text"/>
                 <button disabled={isNotChanged()} className="p-[1rem] w-[10rem] disabled:bg-blue-200 bg-blue-600 text-white" type="submit">Publicar</button>
             </div>
