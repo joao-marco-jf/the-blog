@@ -4,11 +4,9 @@ import axios from "axios";
 
 async function getArticle(id: string){
     let article: ArticleModal & {id: string} | null = null;
-    await axios("/dashboard/api/articles/1", {
+    await axios("/api/articles/1", {
         method: "PUT",
-        data: {id},
-        baseURL: "http://localhost:3000",
-        headers: {"Content-Type": "application/json"}
+        data: {id, withSlug: false}
     }).then((res) => {
         article = res.data;
     }).catch((error) => {

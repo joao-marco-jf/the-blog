@@ -6,13 +6,12 @@ import Link from "next/link";
 
 async function getArticles(){
     let articles: (ArticleModal & {id: string})[] | null = null;
-    await axios('/dashboard/api/articles', {
+    await axios('/api/articles/', {
         method: "GET",
-        baseURL: "http://localhost:3000",
-        headers: {"Content-Type": "application/json"}
     }).then((res) => {
         articles = res.data
     }).catch((error) => {
+        console.error(error);
         articles = null;
     })
     return articles;

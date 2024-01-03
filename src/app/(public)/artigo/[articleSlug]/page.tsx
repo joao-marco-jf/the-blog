@@ -5,10 +5,10 @@ async function getArticle(slug: string){
     let article: ArticleModal | null =  null;
     
     await axios("/api/articles/1", {
-        baseURL: "http://localhost:3000",
         method: "PUT",
         data: {
-            slug: slug
+            slug: slug,
+            withSlug: true
         }
     }).then((res) => {
         article = res.data;

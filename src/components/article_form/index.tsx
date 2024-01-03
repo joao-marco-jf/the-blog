@@ -21,15 +21,14 @@ interface ArticleFormProps {
 }
 
 async function setArticle(data: ArticleModal & {id: string}){
-    let article: ArticleModal | null = null;
-    await axios("/dashboard/api/articles/", {
+    let article: FirebaseFirestore.WriteResult | null = null;
+    await axios("/api/articles/", {
         method: "POST",
         data: data,
-        baseURL: "http://localhost:3000",
-        headers: {"Content-Type": "application/json"}
     }).then((res) => {
         article = res.data;
     }).catch((error) => {
+        console.error(error)
         article = null;
     })
     return article;
@@ -67,6 +66,7 @@ export default function ArticleForm(props: ArticleFormProps){
             published: true
         }
 
+        console.log("Executing...")
         await setArticle({...article, id: props.article.id})
     }
 

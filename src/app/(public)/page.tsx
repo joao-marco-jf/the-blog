@@ -6,8 +6,6 @@ import axios from "axios";
 async function getArticles(){
   let articles: ArticleModal | null = null;
   await axios("/api/articles", {
-    baseURL: "http://localhost:3000",
-    headers: {"Content-Type": "application/json"},
     method: "GET",
   }).then((res) => {
     articles = res.data;

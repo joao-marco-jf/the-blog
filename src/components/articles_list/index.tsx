@@ -8,11 +8,10 @@ import { useState } from "react"
 
 async function deleteArticle(id: string){
     let article: ArticleModal | null = null;
-    await axios("/dashboard/api/articles/1", {
+    await axios("/api/articles/1", {
+        headers: {"Content-Type": "application/json"},
         method: "DELETE",
-        data: {id},
-        baseURL: "http://localhost:3000",
-        headers: {"Content-Type": "application/json"}
+        data: {id}
     }).then((res) => {
         article = res.data
     }).catch((error) => {
