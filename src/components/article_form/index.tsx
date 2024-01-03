@@ -21,14 +21,18 @@ interface ArticleFormProps {
 }
 
 async function setArticle(data: ArticleModal & {id: string}){
-    const res = await axios("/dashboard/api/articles/", {
+    let article: ArticleModal | null = null;
+    await axios("/dashboard/api/articles/", {
         method: "POST",
         data: data,
         baseURL: "http://localhost:3000",
         headers: {"Content-Type": "application/json"}
+    }).then((res) => {
+        article = res.data;
+    }).catch((error) => {
+        article = null;
     })
-    const article = await res.data;
-    return await article;
+    return article;
 }
 
 export default function ArticleForm(props: ArticleFormProps){

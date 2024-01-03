@@ -7,14 +7,18 @@ import Link from "next/link"
 import { useState } from "react"
 
 async function deleteArticle(id: string){
-    const res = await axios("/dashboard/api/articles/1", {
+    let article: ArticleModal | null = null;
+    await axios("/dashboard/api/articles/1", {
         method: "DELETE",
         data: {id},
         baseURL: "http://localhost:3000",
         headers: {"Content-Type": "application/json"}
+    }).then((res) => {
+        article = res.data
+    }).catch((error) => {
+        article = null;
     })
-    const article = await res.data;
-    return await article;
+    return article;
 }
 
 export default function ArticlesList(props: {articles: (ArticleModal & {id: string})[]}){
