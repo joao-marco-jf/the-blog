@@ -41,7 +41,7 @@ export default function ArticleForm(props: ArticleFormProps){
     const [ content, setContent ] = useState<string>(props.original ? props.original.content : String())
     const [ description, setDescription ] = useState<string>(props.original ? props.original.description : String())
     const { data: session } = useSession();
-    const isNotChanged = (): boolean => (title == "" ||slug == "" || content == "" || (props.original && content == props.original.content) || (props.original && title == props.original.title) || (props.original && slug == props.original.slug)) as boolean
+    const isNotChanged = (): boolean => (slug == "" || content == "" || (props.original && content == props.original.content)) as boolean
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
         if(isNotChanged()) return;
@@ -63,7 +63,8 @@ export default function ArticleForm(props: ArticleFormProps){
             },
             createdAt: props.original?.createdAt || Timestamp.now(),
             updatedAt: Timestamp.now(),
-            published: true
+            published: true,
+            views: 0
         }
 
         await setArticle({...article, id: props.article.id})

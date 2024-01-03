@@ -21,7 +21,8 @@ export async function PUT(request: Request){
                 createdAt: articleSnapshot.data()?.createdAt,
                 updatedAt: articleSnapshot.data()?.updatedAt,
                 published: articleSnapshot.data()?.published,
-                author: articleSnapshot.data()?.author
+                author: articleSnapshot.data()?.author,
+                views: articleSnapshot.data()?.views
             }
             return Response.json(article);
         } else {
@@ -35,7 +36,8 @@ export async function PUT(request: Request){
                 createdAt: articleSnapshot.data()?.createdAt,
                 updatedAt: articleSnapshot.data()?.updatedAt,
                 published: articleSnapshot.data()?.published,
-                author: articleSnapshot.data()?.author
+                author: articleSnapshot.data()?.author,
+                views: articleSnapshot.data()?.views
             }
             return Response.json(article);
         }

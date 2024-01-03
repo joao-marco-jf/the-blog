@@ -11,5 +11,6 @@ export interface ArticleModal {
     author: {
         name: string,
         email: string
-    }
+    },
+    views: number
 }
