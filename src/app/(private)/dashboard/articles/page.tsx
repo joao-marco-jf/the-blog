@@ -11,7 +11,6 @@ async function getArticles(){
     }).then((res) => {
         articles = res.data
     }).catch((error) => {
-        console.error(error);
         articles = null;
     })
     return articles;
