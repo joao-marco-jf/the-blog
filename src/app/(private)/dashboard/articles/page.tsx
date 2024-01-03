@@ -5,17 +5,19 @@ import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 
 async function getArticles(){
-    const res = await axios('/dashboard/api/articles', {
+    let articles: (ArticleModal & {id: string})[] | null = null;
+    await axios('/api/articles/', {
         method: "GET",
-        baseURL: "http://localhost:3000",
-        headers: {"Content-Type": "application/json"}
+    }).then((res) => {
+        articles = res.data
+    }).catch((error) => {
+        articles = null;
     })
-    const articles = await res.data
-    return await articles
+    return articles;
 }
 
 export default async function ArticlesPage(){
-    const articles: (ArticleModal & {id: string})[] = await getArticles()
+    const articles: (ArticleModal & {id: string})[] | null = await getArticles() as (ArticleModal & {id: string})[] | null
     
     return(
         <main className="flex flex-col w-full h-full">
@@ -24,7 +26,7 @@ export default async function ArticlesPage(){
                 <Link href={`/dashboard/articles/${parseInt((Math.random()*(10**10)).toFixed(0)).toString(16)}`}><button className="p-[1rem] w-[10rem] bg-blue-600 text-white" type="submit">Criar artigo</button></Link>
             </div>
             <div className="flex overflow-y-scroll flex-col gap-[1rem] w-full h-full p-[1rem]">
-                <ArticlesList articles={articles}/>
+                {articles != null && <ArticlesList articles={articles}/>}
             </div>
         </main>
     )

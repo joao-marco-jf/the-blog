@@ -21,14 +21,17 @@ interface ArticleFormProps {
 }
 
 async function setArticle(data: ArticleModal & {id: string}){
-    const res = await axios("/dashboard/api/articles/", {
+    let article: FirebaseFirestore.WriteResult | null = null;
+    await axios("/api/articles/", {
         method: "POST",
         data: data,
-        baseURL: "http://localhost:3000",
-        headers: {"Content-Type": "application/json"}
+    }).then((res) => {
+        article = res.data;
+    }).catch((error) => {
+        console.error(error)
+        article = null;
     })
-    const article = await res.data;
-    return await article;
+    return article;
 }
 
 export default function ArticleForm(props: ArticleFormProps){
@@ -60,7 +63,8 @@ export default function ArticleForm(props: ArticleFormProps){
             },
             createdAt: props.original?.createdAt || Timestamp.now(),
             updatedAt: Timestamp.now(),
-            published: true
+            published: true,
+            views: 0
         }
 
         await setArticle({...article, id: props.article.id})
@@ -80,7 +84,7 @@ export default function ArticleForm(props: ArticleFormProps){
         <form className="flex flex-col h-[100vh]" onSubmit={handleSubmit}>
             <div className="fixed flex h-[4rem] z-50 w-full justify-between border-b-[1px] border-white">
                 <Link href={"/dashboard/articles"} className="cursor-pointer h-full flex justify-center items-center px-[1rem]"><ArrowLeftIcon /></Link>
-                <input onChange={handleChange} value={title} className="p-[1rem] w-full outline-none" id="title" type="text" defaultValue={props.original ? title : "Novo artigo"}/>
+                <input onChange={handleChange} value={title} className="p-[1rem] w-full outline-none" id="title" type="text"/>
                 <input hidden value={slug} onChange={handleChange} className="p-[1rem] w-full  outline-none" id="slug" type="text"/>
                 <button disabled={isNotChanged()} className="p-[1rem] w-[10rem] disabled:bg-blue-200 bg-blue-600 text-white" type="submit">Publicar</button>
             </div>

@@ -116,9 +116,10 @@ export default function Textarea(props: TextareaTypes){
     })
 
     return(
-        <div className='h-[100%] mt-[4rem]'>
-            {!editor && <div className='flex w-full h-full justify-center items-center'>Loading...</div>}
+        <div className='w-full h-[100%] mt-[4rem] mb-[4rem]'>
+            {!editor && <div className='flex w-[100vw] h-full justify-center items-center'><span>Carregando...</span></div>}
             {editor &&
+            <>
                 <div className='fixed z-50 flex items-center w-full bg-black gap-[1rem] h-[4rem]'>
                     <div
                         onClick={() => editor.chain().focus().toggleBold().run()}
@@ -187,8 +188,9 @@ export default function Textarea(props: TextareaTypes){
                         className={"p-[1rem] border-[1px] border-black bg-black cursor-pointer"}
                     ><Redo2Icon className={ "active:text-white text-zinc-400"}/></div>
                 </div>
+                <EditorContent className="p-[1rem] mb-[4rem] mt-[4rem]" editor={editor} />
+            </>
             }
-            <EditorContent className="p-[1rem] h-fit mt-[4rem]" editor={editor} />
         </div>
     )
 }
