@@ -2,7 +2,7 @@
 import { auth } from "@/lib/auth";
 import { initAdmin } from "@/lib/firebase/firebaseAdmin";
 import { ArticleModal } from "@/lib/interfaces";
-import { getFirestore } from "firebase-admin/firestore";3
+import { getFirestore } from "firebase-admin/firestore";
 
 export async function PUT(request: Request){
 
