@@ -2,8 +2,8 @@ import { ArticleModal } from "@/lib/interfaces";
 import axios from "axios"
 
 async function getArticle(slug: string){
+
     let article: ArticleModal | null =  null;
-    
     await axios("/api/articles/1", {
         method: "PUT",
         data: {
@@ -21,7 +21,7 @@ async function getArticle(slug: string){
 
 export default async function Article({params}: {params: {articleSlug: string}}){
     const article: ArticleModal | null = await getArticle(params.articleSlug) as ArticleModal | null;
-    
+
     return(
         <main className="p-[5rem] sm:px-[1rem] md:px-[10rem] lg:px-[20rem] xl:px-[22rem] 2xl:px-[28rem]">
             {article != null &&

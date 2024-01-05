@@ -4,7 +4,7 @@ import { ArticleModal } from "@/lib/interfaces";
 import axios from "axios";
 
 async function getArticles(by?: string, order?: string){
-  let articles: ArticleModal | null = null;
+  let articles: ArticleModal[] | null = null;
   await axios(`/api/articles/${by}/${order}`, {
     method: "GET",
   }).then((res) => {

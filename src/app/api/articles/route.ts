@@ -11,15 +11,7 @@ export async function GET(request: Request) {
         const articlesSnapshot = await firestore.collection("articles").orderBy("createdAt.seconds", "desc").get();
         const articles: (ArticleModal & {id: string})[] = articlesSnapshot.docs.map((article) => ({
             id: article.id,
-            title: article.data().title,
-            slug: article.data().slug,
-            content: article.data().content,
-            description: article.data().description,
-            createdAt: article.data().createdAt,
-            updatedAt: article.data().updatedAt,
-            published: article.data().published,
-            author: article.data().author,
-            views: article.data().views
+            ...(article.data() as ArticleModal)
         }))
         return Response.json(articles);
     } catch (error){
